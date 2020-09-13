@@ -3,7 +3,9 @@
 #include <pybind11/operators.h>
 namespace py = pybind11;
 
+#pragma warning(disable:4244 4267 4996)
 #include "System.h"
+#pragma warning(default:4244 4267 4996)
 
 #if 0
 #include <iostream>

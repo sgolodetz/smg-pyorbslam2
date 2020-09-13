@@ -22,9 +22,10 @@ SET(targetname pyorbslam)
 #INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseSpaint.cmake)
 
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseEigen.cmake)
-INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseGLEW.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenCV.cmake)
-INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseORBSLAM2.cmake)
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenGL.cmake)
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenNI.cmake)
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseORBSLAM.cmake)
 
 ##########################################
 # Specify additional include directories #
@@ -50,6 +51,10 @@ TARGET_LINK_LIBRARIES(${targetname} debug pybind11::module optimized pybind11::m
 #INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkInfiniTAM.cmake)
 #INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenCV.cmake)
 #INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkSpaint.cmake)
+
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenGL.cmake)
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenNI.cmake)
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkORBSLAM.cmake)
 
 ##########################################
 # Copy resource files to the right place #
