@@ -59,6 +59,34 @@ PYBIND11_MODULE(pyorbslam, m)
 
   // CLASSES
 
+  py::class_<cv::Mat1d>(m, "CVMat1d", pybind11::buffer_protocol())
+    .def_buffer([](cv::Mat1d& img) -> pybind11::buffer_info {
+      return pybind11::buffer_info(
+        img.data,
+        sizeof(double),
+        pybind11::format_descriptor<double>::format(),
+        2,
+        { img.rows, img.cols },
+        { sizeof(double) * img.cols, sizeof(double) }
+      );
+    })
+    .def_static("zeros", [](int rows, int cols) -> cv::Mat1d { return cv::Mat1d::zeros(rows, cols); }, "")
+  ;
+
+  py::class_<cv::Mat1f>(m, "CVMat1f", pybind11::buffer_protocol())
+    .def_buffer([](cv::Mat1f& img) -> pybind11::buffer_info {
+      return pybind11::buffer_info(
+        img.data,
+        sizeof(float),
+        pybind11::format_descriptor<float>::format(),
+        2,
+        { img.rows, img.cols },
+        { sizeof(float) * img.cols, sizeof(float) }
+      );
+    })
+    .def_static("zeros", [](int rows, int cols) -> cv::Mat1f { return cv::Mat1f::zeros(rows, cols); }, "")
+  ;
+
   py::class_<cv::Mat3b>(m, "CVMat3b", pybind11::buffer_protocol())
     .def_buffer([](cv::Mat3b& img) -> pybind11::buffer_info {
       return pybind11::buffer_info(
@@ -75,7 +103,12 @@ PYBIND11_MODULE(pyorbslam, m)
 
   py::class_<System>(m, "System")
     .def(py::init<std::string, std::string, System::eSensor, bool>())
-    .def("track_monocular", [](System& self, const cv::Mat3b& im, float timestamp) { self.TrackMonocular(im, timestamp); }, "")
+    .def("track_monocular", [](System& self, const cv::Mat3b& im, float timestamp) -> cv::Mat1d {
+      return self.TrackMonocular(im, timestamp);
+    }, "")
+    .def("track_rgbd", [](System& self, const cv::Mat3b& im, const cv::Mat1f& depthmap, float timestamp) -> cv::Mat1d {
+      return self.TrackRGBD(im, depthmap, timestamp);
+    }, "")
   ;
 
   // ENUMERATIONS
