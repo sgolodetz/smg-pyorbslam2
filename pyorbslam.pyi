@@ -3,8 +3,16 @@ import numpy as np
 
 # CLASSES
 
+class CVMat3b(np.ndarray):
+	# no_dims: Vector2i
+	# def __init__(self, no_dims: Vector2i, allocate_cpu: bool, allocate_cuda: bool, metal_compatible: bool)
+
+	@staticmethod
+	def zeros(rows: int, cols: int) -> CVMat3b: ...
+
 class System:
 	def __init__(self, voc_file: str, settings_file: str, sensor: ESensor, use_viewer: bool): ...
+	def track_monocular(self, im: CVMat3b, timestamp: float) -> np.ndarray: ...
 
 # ENUMERATIONS
 

@@ -46,13 +46,36 @@ using namespace tvgutil;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #endif
 
+void f(const cv::Mat& im)
+{
+  // TODO
+}
+
 PYBIND11_MODULE(pyorbslam, m)
 {
+  // FUNCTIONS
+
+  m.def("f", [](const cv::Mat3b& im) { f(im); }, "");
+
   // CLASSES
+
+  py::class_<cv::Mat3b>(m, "CVMat3b", pybind11::buffer_protocol())
+    .def_buffer([](cv::Mat3b& img) -> pybind11::buffer_info {
+      return pybind11::buffer_info(
+        img.data,
+        sizeof(unsigned char),
+        pybind11::format_descriptor<unsigned char>::format(),
+        3,
+        { img.rows, img.cols, 3 },
+        { sizeof(unsigned char) * 3 * img.cols, sizeof(unsigned char) * 3, sizeof(unsigned char) }
+      );
+    })
+    .def_static("zeros", [](int rows, int cols) -> cv::Mat3b { return cv::Mat3b::zeros(rows, cols); }, "")
+  ;
 
   py::class_<System>(m, "System")
     .def(py::init<std::string, std::string, System::eSensor, bool>())
-    // TODO
+    .def("track_monocular", [](System& self, const cv::Mat3b& im, float timestamp) { self.TrackMonocular(im, timestamp); }, "")
   ;
 
   // ENUMERATIONS
