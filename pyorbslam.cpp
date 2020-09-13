@@ -6,6 +6,7 @@ namespace py = pybind11;
 #pragma warning(disable:4244 4267 4996)
 #include "System.h"
 #pragma warning(default:4244 4267 4996)
+using namespace ORB_SLAM2;
 
 #if 0
 #include <iostream>
@@ -47,6 +48,32 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 
 PYBIND11_MODULE(pyorbslam, m)
 {
+  // CLASSES
+
+  py::class_<System>(m, "System")
+    .def(py::init<std::string, std::string, System::eSensor, bool>())
+    // TODO
+  ;
+
+  // ENUMERATIONS
+
+  py::enum_<System::eSensor>(m, "ESensor")
+    .value("MONOCULAR", System::MONOCULAR)
+    .value("STEREO", System::STEREO)
+    .value("RGBD", System::RGBD)
+    .export_values()
+  ;
+
+#if 0
+  // ENUMERATIONS
+
+  py::enum_<ITMMainEngine::GetImageType>(m, "GetImageType")
+    .value("IMAGE_ORIGINAL_RGB", ITMMainEngine::GetImageType::InfiniTAM_IMAGE_ORIGINAL_RGB)
+    .value("IMAGE_COLOUR_FROM_VOLUME", ITMMainEngine::GetImageType::InfiniTAM_IMAGE_COLOUR_FROM_VOLUME)
+    // TODO
+    .export_values()
+  ;
+#endif
 #if 0
   //#################### InputSource ####################
 

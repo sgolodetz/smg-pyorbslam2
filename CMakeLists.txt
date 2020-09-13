@@ -52,6 +52,7 @@ TARGET_LINK_LIBRARIES(${targetname} debug pybind11::module optimized pybind11::m
 #INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenCV.cmake)
 #INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkSpaint.cmake)
 
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenCV.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenGL.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenNI.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkORBSLAM.cmake)

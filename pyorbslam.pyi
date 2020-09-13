@@ -1,6 +1,20 @@
 import numpy as np
 
 
+# CLASSES
+
+class System:
+	def __init__(self, voc_file: str, settings_file: str, sensor: ESensor, use_viewer: bool): ...
+
+# ENUMERATIONS
+
+class ESensor(int):
+	pass
+
+MONOCULAR: ESensor
+STEREO: ESensor
+RGBD: ESensor
+
 #################### InputSource ####################
 
 # CLASSES
