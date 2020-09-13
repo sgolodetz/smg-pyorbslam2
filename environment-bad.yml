@@ -1,0 +1,31 @@
+name: pynfinitam
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - blas=1.0=mkl
+  - ca-certificates=2019.9.11=hecc5488_0
+  - certifi=2019.9.11=py37_0
+  - icc_rt=2019.0.0=h0cc432a_1
+  - intel-openmp=2019.4=245
+  - mkl=2019.4=245
+  - mkl-service=2.3.0=py37hb782905_0
+  - mkl_fft=1.0.14=py37h14836fe_0
+  - mkl_random=1.1.0=py37h675688f_0
+  - numpy=1.17.2=py37hc73f44b_0
+  - numpy-base=1.17.2=py37hc3f5095_0
+  - openssl=1.1.1c=hfa6e2cd_0
+  - pip=19.3.1=py37_0
+  - pybind11=2.4.3=py37he980bc4_0
+  - python=3.7.3=h510b542_1
+  - setuptools=41.6.0=py37_0
+  - six=1.12.0=py37_0
+  - sqlite=3.30.1=he774522_0
+  - vc=14.1=h0510ff6_4
+  - vs2015_runtime=14.16.27012=hf0eaf9b_0
+  - wheel=0.33.6=py37_0
+  - wincertstore=0.2=py37_0
+  - pip:
+    - opencv-python==4.1.1.26
+prefix: C:\ProgramData\Anaconda3\envs\pynfinitam
+
