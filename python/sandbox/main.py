@@ -37,7 +37,7 @@ def main():
         )
         pose: CVMat1d = system.track_rgbd(colour_image, depth_image, timestamp)
         print(np.array(pose, copy=False))
-        cv2.waitKey(1000)
+        cv2.waitKey(30)
         timestamp += 0.1
 
 
