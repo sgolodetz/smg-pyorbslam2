@@ -14,13 +14,6 @@ SET(targetname pyorbslam)
 # Specify the libraries to use #
 ################################
 
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseBoost.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseCUDA.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseEigen.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseInfiniTAM.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenCV.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseSpaint.cmake)
-
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseEigen.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenCV.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenGL.cmake)
@@ -37,8 +30,6 @@ INCLUDE_DIRECTORIES(${pybind11_INCLUDE_DIRS})
 # Specify the target #
 ######################
 
-#PYBIND11_ADD_MODULE(${targetname} pynfinitam.cpp pynfinitam.pyi)
-#CUDA_ADD_LIBRARY(${targetname} SHARED pynfinitam.cpp pynfinitam.pyi)
 ADD_LIBRARY(${targetname} SHARED ${targetname}.cpp ${targetname}.pyi)
 SET_TARGET_PROPERTIES(${targetname} PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}" SUFFIX "${PYTHON_MODULE_EXTENSION}")
 
@@ -47,11 +38,6 @@ SET_TARGET_PROPERTIES(${targetname} PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}" 
 #################################
 
 TARGET_LINK_LIBRARIES(${targetname} debug pybind11::module optimized pybind11::module)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkBoost.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkInfiniTAM.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenCV.cmake)
-#INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkSpaint.cmake)
-
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenCV.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenGL.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenNI.cmake)
