@@ -10,18 +10,15 @@ class MonocularTracker:
 
     # CONSTRUCTORS
 
-    def __init__(self, *, image_size: Tuple[int, int], settings_file: str, use_viewer: bool = False, voc_file: str,
-                 wait_till_ready: bool = False):
+    def __init__(self, *, settings_file: str, use_viewer: bool = False, voc_file: str, wait_till_ready: bool = False):
         """
         Construct a monocular ORB-SLAM tracker.
 
-        :param image_size:          The size of the images produced by the camera whose pose is to be tracked.
         :param settings_file:       The path to the file containing the settings to use for ORB-SLAM.
         :param use_viewer:          Whether or not to use ORB-SLAM's viewer (for debugging purposes).
         :param voc_file:            The path to the file containing the ORB vocabulary for ORB-SLAM.
         :param wait_till_ready:     Whether to block until the tracker is ready.
         """
-        self.__image_size: Tuple[int, int] = image_size
         self.__settings_file: str = settings_file
         self.__use_viewer = use_viewer
         self.__voc_file: str = voc_file
@@ -117,7 +114,7 @@ class MonocularTracker:
         )
 
         # Allocate a suitably-sized OpenCV image that can be passed to C++.
-        image: pyorbslam.CVMat3b = pyorbslam.CVMat3b.zeros(*self.__image_size)
+        image: Optional[pyorbslam.CVMat3b] = None
 
         with self.__lock:
             # Advertise that tracking is now available.
@@ -133,6 +130,8 @@ class MonocularTracker:
                         return
 
                 # Process the tracking request.
+                if image is None:
+                    image = pyorbslam.CVMat3b.zeros(*self.__image.shape[:2])
                 np.copyto(np.array(image, copy=False), self.__image)
                 pose: pyorbslam.CVMat1d = system.track_monocular(image, self.__timestamp)
                 self.__pose = np.array(pose)
