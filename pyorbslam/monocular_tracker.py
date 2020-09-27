@@ -51,13 +51,12 @@ class MonocularTracker:
     # SPECIAL METHODS
 
     def __enter__(self):
-        """No-op (needed to allow the ORB-SLAM wrapper's lifetime to be managed by a with statement)."""
+        """No-op (needed to allow the tracker's lifetime to be managed by a with statement)."""
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):
-        """Destroy the ORB-SLAM wrapper at the end of the with statement that's used to manage its lifetime."""
-        self.__should_terminate = True
-        self.__tracking_thread.join()
+        """Destroy the tracker at the end of the with statement that's used to manage its lifetime."""
+        self.terminate()
 
     # PUBLIC METHODS
 
@@ -98,6 +97,13 @@ class MonocularTracker:
         """
         with self.__lock:
             return self.__tracking_available
+
+    def terminate(self):
+        """
+        Destroy the tracker.
+        """
+        self.__should_terminate = True
+        self.__tracking_thread.join()
 
     # PRIVATE METHODS
 
