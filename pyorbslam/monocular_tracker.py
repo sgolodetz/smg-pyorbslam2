@@ -11,14 +11,15 @@ class MonocularTracker:
     # CONSTRUCTORS
 
     def __init__(self, *, image_size: Tuple[int, int], settings_file: str, use_viewer: bool = False, voc_file: str,
-                 wait_for_tracking: bool = False):
+                 wait_till_ready: bool = False):
         """
         Construct a monocular ORB-SLAM tracker.
 
-        :param image_size:      The image size of the monocular camera whose pose is to be tracked.
-        :param settings_file:   The path to the file containing the settings to use for ORB-SLAM.
-        :param use_viewer:      Whether or not to use ORB-SLAM's viewer (for debugging purposes).
-        :param voc_file:        The path to the file containing the ORB vocabulary for ORB-SLAM.
+        :param image_size:          The image size of the monocular camera whose pose is to be tracked.
+        :param settings_file:       The path to the file containing the settings to use for ORB-SLAM.
+        :param use_viewer:          Whether or not to use ORB-SLAM's viewer (for debugging purposes).
+        :param voc_file:            The path to the file containing the ORB vocabulary for ORB-SLAM.
+        :param wait_till_ready:     Whether to block until the tracker is ready.
         """
         self.__image_size: Tuple[int, int] = image_size
         self.__settings_file: str = settings_file
@@ -34,18 +35,18 @@ class MonocularTracker:
         self.__lock = threading.Lock()
         self.__image_ready = threading.Condition(self.__lock)
         self.__pose_ready = threading.Condition(self.__lock)
-        self.__tracking_ready = threading.Condition(self.__lock)
+        self.__tracker_ready = threading.Condition(self.__lock)
         self.__tracking_available: bool = False
         self.__tracking_required: bool = False
 
         self.__tracking_thread = threading.Thread(target=self.__process_tracking)
         self.__tracking_thread.start()
 
-        # Wait for tracking to be available if requested.
-        if wait_for_tracking:
+        # Block until the tracker is ready if requested.
+        if wait_till_ready:
             with self.__lock:
                 while not self.__tracking_available:
-                    self.__tracking_ready.wait()
+                    self.__tracker_ready.wait()
 
     # SPECIAL METHODS
 
@@ -115,7 +116,7 @@ class MonocularTracker:
         with self.__lock:
             # Advertise that tracking is now available.
             self.__tracking_available = True
-            self.__tracking_ready.notify()
+            self.__tracker_ready.notify()
 
             # While the tracker should not terminate:
             while not self.__should_terminate:
