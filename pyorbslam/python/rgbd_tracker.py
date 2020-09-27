@@ -5,35 +5,33 @@ import threading
 from typing import Optional, Tuple
 
 
-class MonocularTracker:
-    """A monocular ORB-SLAM tracker."""
+class RGBDTracker:
+    """An RGB-D ORB-SLAM tracker."""
 
     # CONSTRUCTORS
 
-    def __init__(self, *, image_size: Tuple[int, int], settings_file: str, use_viewer: bool = False, voc_file: str,
-                 wait_till_ready: bool = False):
+    def __init__(self, *, settings_file: str, use_viewer: bool = False, voc_file: str, wait_till_ready: bool = False):
         """
-        Construct a monocular ORB-SLAM tracker.
+        Construct an RGB-D ORB-SLAM tracker.
 
-        :param image_size:          The image size of the monocular camera whose pose is to be tracked.
         :param settings_file:       The path to the file containing the settings to use for ORB-SLAM.
         :param use_viewer:          Whether or not to use ORB-SLAM's viewer (for debugging purposes).
         :param voc_file:            The path to the file containing the ORB vocabulary for ORB-SLAM.
         :param wait_till_ready:     Whether to block until the tracker is ready.
         """
-        self.__image_size: Tuple[int, int] = image_size
         self.__settings_file: str = settings_file
         self.__use_viewer = use_viewer
         self.__voc_file: str = voc_file
 
         self.__should_terminate: bool = False
 
-        self.__image: Optional[np.ndarray] = None
+        self.__depth_image: Optional[np.ndarray] = None
         self.__pose: Optional[np.ndarray] = None
+        self.__rgb_image: Optional[np.ndarray] = None
         self.__timestamp: float = 0.0
 
         self.__lock = threading.Lock()
-        self.__image_ready = threading.Condition(self.__lock)
+        self.__input_ready = threading.Condition(self.__lock)
         self.__pose_ready = threading.Condition(self.__lock)
         self.__tracker_ready = threading.Condition(self.__lock)
         self.__tracking_available: bool = False
@@ -60,23 +58,25 @@ class MonocularTracker:
 
     # PUBLIC METHODS
 
-    def estimate_pose(self, image: np.ndarray) -> Optional[np.ndarray]:
+    def estimate_pose(self, rgb_image: np.ndarray, depth_image: np.ndarray) -> Optional[np.ndarray]:
         """
-        Estimate the pose of the camera at the point at which the specified image was captured.
+        Estimate the pose of the camera at the point at which the RGB-D image was captured.
 
         .. note::
             Since this is a tracker rather than a relocaliser, internal state will be used when estimating the pose.
             As such, only sequential images should be passed to this method, or pose estimation won't work.
 
-        :param image:   The image.
-        :return:        The estimated pose of the camera at the point at which the image was captured.
+        :param rgb_image:   The RGB part of the RGB-D image.
+        :param depth_image: The depth part of the RGB-D image.
+        :return:            The estimated pose of the camera at the point at which the RGB-D image was captured.
         """
         with self.__lock:
             if self.__tracking_available and not self.__should_terminate:
-                # Pass the image to the tracking thread.
-                self.__image = image
+                # Pass the RGB-D image to the tracking thread.
+                self.__rgb_image = rgb_image
+                self.__depth_image = depth_image
                 self.__tracking_required = True
-                self.__image_ready.notify()
+                self.__input_ready.notify()
 
                 # Wait for the tracking thread to estimate the pose.
                 while self.__tracking_required:
@@ -113,11 +113,12 @@ class MonocularTracker:
         """
         # Initialise ORB-SLAM.
         system: pyorbslam.System = pyorbslam.System(
-            self.__voc_file, self.__settings_file, pyorbslam.MONOCULAR, self.__use_viewer
+            self.__voc_file, self.__settings_file, pyorbslam.RGBD, self.__use_viewer
         )
 
-        # Allocate a suitably-sized OpenCV image that can be passed to C++.
-        image: pyorbslam.CVMat3b = pyorbslam.CVMat3b.zeros(*self.__image_size)
+        # Allocate suitably-sized OpenCV images that can be passed to C++.
+        rgb_image: Optional[pyorbslam.CVMat3b] = None
+        depth_image: Optional[pyorbslam.CVMat1f] = None
 
         with self.__lock:
             # Advertise that tracking is now available.
@@ -128,13 +129,18 @@ class MonocularTracker:
             while not self.__should_terminate:
                 # Wait for a tracking request.
                 while not self.__tracking_required:
-                    self.__image_ready.wait(0.1)
+                    self.__input_ready.wait(0.1)
                     if self.__should_terminate:
                         return
 
                 # Process the tracking request.
-                np.copyto(np.array(image, copy=False), self.__image)
-                pose: pyorbslam.CVMat1d = system.track_monocular(image, self.__timestamp)
+                if rgb_image is None:
+                    rgb_image = pyorbslam.CVMat3b.zeros(*self.__rgb_image.shape[:2])
+                if depth_image is None:
+                    depth_image = pyorbslam.CVMat1f.zeros(*self.__depth_image.shape)
+                np.copyto(np.array(rgb_image, copy=False), self.__rgb_image)
+                np.copyto(np.array(depth_image, copy=False), self.__depth_image)
+                pose: pyorbslam.CVMat1d = system.track_rgbd(rgb_image, depth_image, self.__timestamp)
                 self.__pose = np.array(pose)
                 self.__timestamp += 0.1
                 self.__tracking_required = False
