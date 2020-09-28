@@ -4,7 +4,7 @@ import setuptools
 #     long_description = fh.read()
 
 setuptools.setup(
-    name="pyorbslam",
+    name="smg-pyorbslam",
     version="0.0.1",
     author="Stuart Golodetz",
     author_email="sgolodetz@gmail.com",
@@ -19,5 +19,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='==3.7.*',
 )
