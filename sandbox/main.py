@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
-import pyorbslam
 
-from pyorbslam import CVMat1d, CVMat1f, CVMat3b
+import smg.pyorbslam as pyorbslam
+
+from smg.pyorbslam import CVMat1d, CVMat1f, CVMat3b
 
 
 def load_colour_image(filename: str) -> CVMat3b:

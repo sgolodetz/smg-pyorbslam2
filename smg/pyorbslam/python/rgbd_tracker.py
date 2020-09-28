@@ -1,8 +1,9 @@
 import numpy as np
-import pyorbslam
 import threading
 
-from typing import Optional, Tuple
+import smg.pyorbslam as pyorbslam
+
+from typing import Optional
 
 
 class RGBDTracker:

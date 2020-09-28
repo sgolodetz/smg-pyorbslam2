@@ -2,5 +2,5 @@
 __pycache__/
 build/
 dist/
-pyorbslam/cpp/
+smg/pyorbslam/cpp/
 *.egg-info/
