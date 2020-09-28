@@ -8,7 +8,7 @@ FIND_PACKAGE(pybind11 CONFIG REQUIRED)
 # Specify the target name #
 ###########################
 
-SET(targetname _pyorbslam)
+SET(targetname pyorbslam)
 
 ################################
 # Specify the libraries to use #

@@ -10,7 +10,7 @@ namespace py = pybind11;
 #pragma warning(default:4244 4267 4996)
 using namespace ORB_SLAM2;
 
-PYBIND11_MODULE(_pyorbslam, m)
+PYBIND11_MODULE(pyorbslam, m)
 {
   // CLASSES
 
