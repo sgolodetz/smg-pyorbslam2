@@ -11,7 +11,7 @@ class MonocularTracker:
 
     # CONSTRUCTORS
 
-    def __init__(self, *, settings_file: str, use_viewer: bool = False, voc_file: str, wait_till_ready: bool = False):
+    def __init__(self, *, settings_file: str, use_viewer: bool = False, voc_file: str, wait_till_ready: bool):
         """
         Construct a monocular ORB-SLAM tracker.
 
