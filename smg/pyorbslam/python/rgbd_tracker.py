@@ -85,7 +85,7 @@ class RGBDTracker:
                     if self.__should_terminate:
                         return None
 
-                return self.__pose
+                return self.__pose if self.__pose.shape[0] != 0 else None
             else:
                 # If tracking is not yet available, early out.
                 return None
