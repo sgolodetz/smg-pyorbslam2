@@ -1,7 +1,7 @@
 import numpy as np
 import threading
 
-import smg.pyorbslam as pyorbslam
+import smg.pyorbslam2 as pyorbslam2
 
 from typing import Optional
 
@@ -113,13 +113,13 @@ class RGBDTracker:
         Process tracking requests on a separate thread.
         """
         # Initialise ORB-SLAM.
-        system: pyorbslam.System = pyorbslam.System(
-            self.__voc_file, self.__settings_file, pyorbslam.RGBD, self.__use_viewer
+        system: pyorbslam2.System = pyorbslam2.System(
+            self.__voc_file, self.__settings_file, pyorbslam2.RGBD, self.__use_viewer
         )
 
         # Allocate suitably-sized OpenCV images that can be passed to C++.
-        rgb_image: Optional[pyorbslam.CVMat3b] = None
-        depth_image: Optional[pyorbslam.CVMat1f] = None
+        rgb_image: Optional[pyorbslam2.CVMat3b] = None
+        depth_image: Optional[pyorbslam2.CVMat1f] = None
 
         with self.__lock:
             # Advertise that tracking is now available.
@@ -136,12 +136,12 @@ class RGBDTracker:
 
                 # Process the tracking request.
                 if rgb_image is None:
-                    rgb_image = pyorbslam.CVMat3b.zeros(*self.__rgb_image.shape[:2])
+                    rgb_image = pyorbslam2.CVMat3b.zeros(*self.__rgb_image.shape[:2])
                 if depth_image is None:
-                    depth_image = pyorbslam.CVMat1f.zeros(*self.__depth_image.shape)
+                    depth_image = pyorbslam2.CVMat1f.zeros(*self.__depth_image.shape)
                 np.copyto(np.array(rgb_image, copy=False), self.__rgb_image)
                 np.copyto(np.array(depth_image, copy=False), self.__depth_image)
-                pose: pyorbslam.CVMat1d = system.track_rgbd(rgb_image, depth_image, self.__timestamp)
+                pose: pyorbslam2.CVMat1d = system.track_rgbd(rgb_image, depth_image, self.__timestamp)
                 self.__pose = np.array(pose)
                 self.__timestamp += 0.1
                 self.__tracking_required = False

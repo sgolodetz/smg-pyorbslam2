@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-PROJECT(pyorbslam LANGUAGES CXX)
+PROJECT(pyorbslam2 LANGUAGES CXX)
 
 FIND_PACKAGE(pybind11 CONFIG REQUIRED)
 
@@ -8,7 +8,7 @@ FIND_PACKAGE(pybind11 CONFIG REQUIRED)
 # Specify the target name #
 ###########################
 
-SET(targetname pyorbslam)
+SET(targetname pyorbslam2)
 
 ################################
 # Specify the libraries to use #

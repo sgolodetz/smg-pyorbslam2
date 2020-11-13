@@ -1,7 +1,7 @@
 import numpy as np
 import threading
 
-import smg.pyorbslam as pyorbslam
+import smg.pyorbslam2 as pyorbslam2
 
 from typing import Optional
 
@@ -110,12 +110,12 @@ class MonocularTracker:
         Process tracking requests on a separate thread.
         """
         # Initialise ORB-SLAM.
-        system: pyorbslam.System = pyorbslam.System(
-            self.__voc_file, self.__settings_file, pyorbslam.MONOCULAR, self.__use_viewer
+        system: pyorbslam2.System = pyorbslam2.System(
+            self.__voc_file, self.__settings_file, pyorbslam2.MONOCULAR, self.__use_viewer
         )
 
         # Allocate a suitably-sized OpenCV image that can be passed to C++.
-        image: Optional[pyorbslam.CVMat3b] = None
+        image: Optional[pyorbslam2.CVMat3b] = None
 
         with self.__lock:
             # Advertise that tracking is now available.
@@ -132,9 +132,9 @@ class MonocularTracker:
 
                 # Process the tracking request.
                 if image is None:
-                    image = pyorbslam.CVMat3b.zeros(*self.__image.shape[:2])
+                    image = pyorbslam2.CVMat3b.zeros(*self.__image.shape[:2])
                 np.copyto(np.array(image, copy=False), self.__image)
-                pose: pyorbslam.CVMat1d = system.track_monocular(image, self.__timestamp)
+                pose: pyorbslam2.CVMat1d = system.track_monocular(image, self.__timestamp)
                 self.__pose = np.array(pose)
                 self.__timestamp += 0.1
                 self.__tracking_required = False
