@@ -9,7 +9,7 @@ def main():
 
     with pyorbslam2.RGBDTracker(
         settings_file="D:/datasets/kitti_raw/2011_09_26/2011_09_26_drive_0005_sync/orb_slam/settings.yaml",
-        use_viewer=True, voc_file="C:/orbslam/Vocabulary/ORBvoc.txt", wait_till_ready=True
+        use_viewer=True, voc_file="C:/orbslam2/Vocabulary/ORBvoc.txt", wait_till_ready=True
     ) as tracker:
         for idx in range(100):
             colour_image: np.ndarray = cv2.imread(
