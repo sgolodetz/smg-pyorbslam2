@@ -1,6 +1,7 @@
 import numpy as np
 import threading
 
+import smg.pyopencv as pyopencv
 import smg.pyorbslam2 as pyorbslam2
 
 from typing import Optional
@@ -118,8 +119,8 @@ class RGBDTracker:
         )
 
         # Allocate suitably-sized OpenCV images that can be passed to C++.
-        rgb_image: Optional[pyorbslam2.CVMat3b] = None
-        depth_image: Optional[pyorbslam2.CVMat1f] = None
+        rgb_image: Optional[pyopencv.CVMat3b] = None
+        depth_image: Optional[pyopencv.CVMat1f] = None
 
         with self.__lock:
             # Advertise that tracking is now available.
@@ -136,12 +137,12 @@ class RGBDTracker:
 
                 # Process the tracking request.
                 if rgb_image is None:
-                    rgb_image = pyorbslam2.CVMat3b.zeros(*self.__rgb_image.shape[:2])
+                    rgb_image = pyopencv.CVMat3b.zeros(*self.__rgb_image.shape[:2])
                 if depth_image is None:
-                    depth_image = pyorbslam2.CVMat1f.zeros(*self.__depth_image.shape)
+                    depth_image = pyopencv.CVMat1f.zeros(*self.__depth_image.shape)
                 np.copyto(np.array(rgb_image, copy=False), self.__rgb_image)
                 np.copyto(np.array(depth_image, copy=False), self.__depth_image)
-                pose: pyorbslam2.CVMat1d = system.track_rgbd(rgb_image, depth_image, self.__timestamp)
+                pose: pyopencv.CVMat1d = system.track_rgbd(rgb_image, depth_image, self.__timestamp)
                 self.__pose = np.array(pose)
                 self.__timestamp += 0.1
                 self.__tracking_required = False

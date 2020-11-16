@@ -1,6 +1,7 @@
 import numpy as np
 import threading
 
+import smg.pyopencv as pyopencv
 import smg.pyorbslam2 as pyorbslam2
 
 from typing import Optional
@@ -115,7 +116,7 @@ class MonocularTracker:
         )
 
         # Allocate a suitably-sized OpenCV image that can be passed to C++.
-        image: Optional[pyorbslam2.CVMat3b] = None
+        image: Optional[pyopencv.CVMat3b] = None
 
         with self.__lock:
             # Advertise that tracking is now available.
@@ -132,9 +133,9 @@ class MonocularTracker:
 
                 # Process the tracking request.
                 if image is None:
-                    image = pyorbslam2.CVMat3b.zeros(*self.__image.shape[:2])
+                    image = pyopencv.CVMat3b.zeros(*self.__image.shape[:2])
                 np.copyto(np.array(image, copy=False), self.__image)
-                pose: pyorbslam2.CVMat1d = system.track_monocular(image, self.__timestamp)
+                pose: pyopencv.CVMat1d = system.track_monocular(image, self.__timestamp)
                 self.__pose = np.array(pose)
                 self.__timestamp += 0.1
                 self.__tracking_required = False

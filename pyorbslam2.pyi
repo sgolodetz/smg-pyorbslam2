@@ -1,19 +1,7 @@
-import numpy as np
+from smg.pyopencv import CVMat1d, CVMat1f, CVMat3b
 
 
 # CLASSES
-
-class CVMat1d(np.ndarray):
-	@staticmethod
-	def zeros(rows: int, cols: int) -> CVMat1d: ...
-
-class CVMat1f(np.ndarray):
-	@staticmethod
-	def zeros(rows: int, cols: int) -> CVMat1f: ...
-
-class CVMat3b(np.ndarray):
-	@staticmethod
-	def zeros(rows: int, cols: int) -> CVMat3b: ...
 
 class System:
 	def __init__(self, voc_file: str, settings_file: str, sensor: ESensor, use_viewer: bool): ...
