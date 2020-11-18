@@ -147,3 +147,6 @@ class RGBDTracker:
                 self.__timestamp += 0.1
                 self.__tracking_required = False
                 self.__pose_ready.notify()
+
+        # Shut down ORB-SLAM.
+        system.shutdown()

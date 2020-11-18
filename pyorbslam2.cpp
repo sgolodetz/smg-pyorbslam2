@@ -16,6 +16,7 @@ PYBIND11_MODULE(pyorbslam2, m)
 
   py::class_<System>(m, "System")
     .def(py::init<std::string, std::string, System::eSensor, bool>(), py::call_guard<py::gil_scoped_release>())
+    .def("shutdown", &System::Shutdown, py::call_guard<py::gil_scoped_release>())
     .def("track_monocular", [](System& self, const cv::Mat3b& im, float timestamp) -> cv::Mat1d {
       return self.TrackMonocular(im, timestamp);
     }, py::call_guard<py::gil_scoped_release>())
