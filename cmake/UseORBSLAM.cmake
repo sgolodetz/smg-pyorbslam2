@@ -2,7 +2,7 @@
 # UseORBSLAM.cmake #
 ####################
 
-SET(ORBSLAM_ROOT_DIR "${PROJECT_SOURCE_DIR}/../orbslam2" CACHE PATH "The ORB-SLAM root directory")
+SET(ORBSLAM_ROOT_DIR "${PROJECT_SOURCE_DIR}/../../orbslam2" CACHE PATH "The ORB-SLAM root directory")
 SET(Pangolin_ROOT_DIR "${ORBSLAM_ROOT_DIR}/Thirdparty/Pangolin" CACHE PATH "The Pangolin root directory")
 SET(Pangolin_LIB_DIR "${Pangolin_ROOT_DIR}/install/lib")
 
