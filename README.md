@@ -14,7 +14,7 @@ Note: Please read the [top-level README](https://github.com/sgolodetz/smglib/blo
 C:/Users/<your user>/Downloads/eigen-3.4.0
 ```
 
-2. Also set (at a system level) the `SMGLIB_ORBSLAM2_DIR` to `C:/orbslam2` and the `SMGLIB_PANGOLIN_DIR` to `C:/Pangolin` (if you use other directories, you'll need to adjust the instructions further down accordingly).
+2. Also set (at a system level) the `SMGLIB_ORBSLAM2_ROOT_DIR` to `C:/orbslam2` and the `SMGLIB_Pangolin_ROOT_DIR` to `C:/Pangolin` (if you use other directories, you'll need to adjust the instructions further down accordingly).
 
 3. Open the terminal.
 
