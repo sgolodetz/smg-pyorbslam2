@@ -1,6 +1,9 @@
 .idea/
 __pycache__/
+_skbuild/
 build/
 dist/
-smg/pyorbslam2/cpp/
+smg/pyorbslam2/cpp/*.dll
+smg/pyorbslam2/cpp/*.lib
+smg/pyorbslam2/cpp/*.pyd
 *.egg-info/

@@ -1,9 +1,9 @@
-import setuptools
+import skbuild
 
 # with open("README.md", "r") as fh:
 #     long_description = fh.read()
 
-setuptools.setup(
+skbuild.setup(
     name="smg-pyorbslam2",
     version="0.0.1",
     author="Stuart Golodetz",
@@ -12,7 +12,8 @@ setuptools.setup(
     long_description="",  #long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/sgolodetz/smg-pyorbslam2",
-    packages=["smg.pyorbslam2"],
+    packages=["smg.pyorbslam2", "smg.pyorbslam2.cpp"],
+    cmake_install_dir="smg/pyorbslam2/cpp",
     include_package_data=True,
     install_requires=[
         "numpy",

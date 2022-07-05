@@ -2,18 +2,18 @@
 # LinkORBSLAM.cmake #
 #####################
 
-TARGET_LINK_LIBRARIES(${targetname} ${ORBSLAM_LIBRARIES})
+TARGET_LINK_LIBRARIES(${targetname} PRIVATE ${ORBSLAM_LIBRARIES})
 
 IF(MediaFoundation_FOUND)
-  TARGET_LINK_LIBRARIES(${targetname} ${MediaFoundation_LIBRARIES})
+  TARGET_LINK_LIBRARIES(${targetname} PRIVATE ${MediaFoundation_LIBRARIES})
 ENDIF()
 
 IF(TIFF_FOUND)
-  TARGET_LINK_LIBRARIES(${targetname} ${TIFF_LIBRARY})
+  TARGET_LINK_LIBRARIES(${targetname} PRIVATE ${TIFF_LIBRARY})
 ENDIF()
 
 IF(zstd_FOUND)
-  TARGET_LINK_LIBRARIES(${targetname} ${zstd_LIBRARY})
+  TARGET_LINK_LIBRARIES(${targetname} PRIVATE ${zstd_LIBRARY})
 ENDIF()
 
 IF(MSVC_IDE)
