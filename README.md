@@ -10,15 +10,17 @@ Note: Please read the [top-level README](https://github.com/sgolodetz/smglib/blo
 
 1. Download and extract a copy of Eigen (if you have not already done so), and set (at a system level, not within the terminal) the `SMGLIB_EIGEN_INCLUDE_DIR` environment variable to the top-level Eigen directory, e.g.
 
-```
-C:/Users/<your user>/Downloads/eigen-3.4.0
-```
+   ```
+   C:/Users/<your user>/Downloads/eigen-3.4.0
+   ```
 
 2. Also set (at a system level) the `SMGLIB_ORBSLAM2_ROOT_DIR` to `C:/orbslam2` and the `SMGLIB_Pangolin_ROOT_DIR` to `C:/Pangolin` (if you use other directories, you'll need to adjust the instructions further down accordingly).
 
-3. Open the terminal.
+3. Make sure that the 64-bit version of OpenNI2 is installed. It can be obtained from [here](https://structure.io/openni).
 
-4. Build Pangolin using Visual Studio.
+4. Open the terminal.
+
+5. Build Pangolin using Visual Studio.
 
    i. Clone our fork of Pangolin into `C:/Pangolin`:
 
@@ -32,7 +34,7 @@ C:/Users/<your user>/Downloads/eigen-3.4.0
 
    iv. Configure Pangolin using CMake, with `C:/Pangolin/build` as the build directory. Set `CMAKE_INSTALL_PREFIX` to `C:/Pangolin/install`. Then build and install Pangolin using Visual Studio (in both `Debug` and `Release` modes).
 
-5. Build ORB-SLAM2 using Visual Studio.
+6. Build ORB-SLAM2 using Visual Studio.
 
    i. Clone our fork of ORB-SLAM2 into `C:/orbslam2`:
 
@@ -74,13 +76,13 @@ C:/Users/<your user>/Downloads/eigen-3.4.0
    - Don't forget to reconfigure with a different `CMAKE_BUILD_TYPE` each time, and to do a full rebuild. (Yes, this is hideous.)
    - If you're unlucky, you may need to set the `/bigobj` flag on `Optimizer.cc` when building in `Debug` mode to work around a compiler limit. (This is even more hideous - sorry.)
 
-5. Back in the terminal, change to the `<root>/smg-pyorbslam2` directory.
+7. Back in the terminal, change to the `<root>/smg-pyorbslam2` directory.
 
-6. Check out the `master` branch of `smg-pyorbslam2`.
+8. Check out the `master` branch of `smg-pyorbslam2`.
 
-7. Activate the Conda environment using ```conda activate smglib```.
+9. Activate the Conda environment using `conda activate smglib`.
 
-8. Run `pip install -e .` at the terminal.
+10. Run `pip install -e .` at the terminal.
 
 ### Publications
 

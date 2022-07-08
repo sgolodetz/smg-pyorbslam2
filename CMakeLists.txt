@@ -32,6 +32,7 @@ SET(targetname pyorbslam2)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseEigen.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenCV.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenGL.cmake)
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseOpenNI.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/UseORBSLAM.cmake)
 
 ##########################################
@@ -53,6 +54,7 @@ TARGET_COMPILE_DEFINITIONS(${targetname} PRIVATE VERSION_INFO=${PROJECT_VERSION}
 
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenCV.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenGL.cmake)
+INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkOpenNI.cmake)
 INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkORBSLAM.cmake)
 
 #################################
@@ -61,3 +63,4 @@ INCLUDE(${PROJECT_SOURCE_DIR}/cmake/LinkORBSLAM.cmake)
 
 INSTALL(TARGETS ${targetname} DESTINATION .)
 INSTALL(FILES ${OpenCV_RUNTIMELIBS} DESTINATION .)
+INSTALL(FILES ${OPENNI_RUNTIMELIBS} DESTINATION .)
